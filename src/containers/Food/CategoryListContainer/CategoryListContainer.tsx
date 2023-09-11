@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../redux/store";
 
 const CategoryListContainer = () => {
   const categories = useAppSelector((state) => state.foods.categories);
+  console.log("CategoryListContainer");
 
   return (
     <div className="flex gap-2">

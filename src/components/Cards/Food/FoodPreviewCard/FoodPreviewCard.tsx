@@ -1,3 +1,4 @@
+import React from "react";
 import { FoodItem } from "../../../../types/Food";
 
 type FoodPreviewCardProps = {
@@ -5,6 +6,7 @@ type FoodPreviewCardProps = {
 };
 
 const FoodPreviewCard = ({ data }: FoodPreviewCardProps) => {
+  console.log("FoodPreviewCard");
   return (
     <div className="rounded-md border p-3 active:border-red-400">
       {data.id}.{data.name}
@@ -12,4 +14,4 @@ const FoodPreviewCard = ({ data }: FoodPreviewCardProps) => {
   );
 };
 
-export default FoodPreviewCard;
+export default React.memo(FoodPreviewCard);

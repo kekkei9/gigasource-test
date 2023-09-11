@@ -16,6 +16,7 @@ function App() {
     dispatch(addCategory(inputRef.current.value));
     inputRef.current.value = "";
   };
+  console.log("App rerendered");
 
   return (
     <div className="flex">

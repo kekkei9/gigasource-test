@@ -1,3 +1,4 @@
+import React from "react";
 import { FoodCategory } from "../../../../types/Food";
 
 type FoodCategoryCardProps = {
@@ -5,6 +6,7 @@ type FoodCategoryCardProps = {
 };
 
 const FoodCategoryCard = ({ data }: FoodCategoryCardProps) => {
+  console.log("FoodCategoryCard");
   return (
     <div className="rounded-md border p-3 active:border-red-400">
       {data.name}
@@ -12,4 +14,4 @@ const FoodCategoryCard = ({ data }: FoodCategoryCardProps) => {
   );
 };
 
-export default FoodCategoryCard;
+export default React.memo(FoodCategoryCard);

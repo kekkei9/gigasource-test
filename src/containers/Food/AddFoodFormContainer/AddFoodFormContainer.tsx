@@ -6,6 +6,7 @@ import { addFoodItem } from "../../../redux/foods/foods.slice";
 
 const AddFoodFormContainer = () => {
   const categories = useAppSelector((state) => state.foods.categories);
+  console.log("AddFoodFormContainer");
 
   const dispatch = useAppDispatch();
 

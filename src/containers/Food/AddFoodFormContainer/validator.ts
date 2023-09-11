@@ -1,6 +1,6 @@
 export const AddFoodFormSchema = {
   type: "object",
-  required: ["id", "name", "category", "price"],
+  required: ["id", "name", "categoryId", "price"],
   properties: {
     id: {
       type: "number",
@@ -10,7 +10,7 @@ export const AddFoodFormSchema = {
       type: "string",
       minLength: 1,
     },
-    category: {
+    categoryId: {
       type: "number",
     },
     price: {
