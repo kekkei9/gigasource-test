@@ -20,6 +20,7 @@ const AddFoodFormContainer = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
+      <div>Category</div>
       <select
         {...register("categoryId", {
           valueAsNumber: true,
@@ -32,20 +33,27 @@ const AddFoodFormContainer = () => {
         ))}
       </select>
 
+      <div>ID</div>
       <input
         type="number"
         {...register("id", {
           valueAsNumber: true,
         })}
       />
+      <div>Name</div>
+
       <input {...register("name")} />
+      <div>Price</div>
+
       <input
         type="number"
         {...register("price", {
           valueAsNumber: true,
         })}
       />
-      <button type="submit">Submit</button>
+      <button type="submit" className="bg-cyan-300 px-2 py-1 rounded-md mt-2">
+        Submit
+      </button>
     </form>
   );
 };

@@ -19,16 +19,27 @@ function App() {
   console.log("App rerendered");
 
   return (
-    <div className="flex">
+    <div className="flex w-screen justify-between">
       <div>
         <CategoryListContainer />
 
-        <input ref={inputRef} />
-        <button onClick={handleAddCategory}>add category</button>
-
-        <FoodItemListContainer />
+        <FoodItemListContainer className="mt-6" />
       </div>
-      <AddFoodFormContainer />
+      <div className="bg-white h-screen p-6">
+        <div className="flex flex-col gap-2">
+          <div className="font-bold mb-4">Add Food Category</div>
+
+          <input ref={inputRef} />
+          <button
+            onClick={handleAddCategory}
+            className="bg-cyan-300 px-2 py-1 rounded-md"
+          >
+            Add category
+          </button>
+        </div>
+        <div className="font-bold my-4">Add Food Item</div>
+        <AddFoodFormContainer />
+      </div>
     </div>
   );
 }
