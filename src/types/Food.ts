@@ -1,10 +1,11 @@
 export type FoodCategory = {
-  id: string;
+  id: number;
   name: string;
 };
 
 export type FoodItem = {
-  name: string;
   id: number;
-  categoryId: string;
+  name: string;
+  categoryId: number;
+  price: number;
 };
