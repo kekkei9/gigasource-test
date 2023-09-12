@@ -8,7 +8,12 @@ const CategoryListContainer = () => {
   return (
     <div className="flex gap-2">
       {categories.map((category) => (
-        <FoodCard.Category {...category} key={category.id} />
+        <FoodCard.Category
+          {...category}
+          key={category.id}
+          onClick={(id) => console.log("ehe")}
+          isSelected
+        />
       ))}
     </div>
   );

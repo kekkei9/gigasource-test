@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import FoodCard from "../../../components/Cards/Food";
 import { useAppSelector } from "../../../redux/store";
 import { FoodCategory, FoodItem } from "../../../types/Food";

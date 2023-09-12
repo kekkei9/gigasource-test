@@ -5,6 +5,8 @@ import foodData from "../../constants/data/foods.json";
 const initialState: FoodsState = {
   categories: foodData.categories,
   items: foodData.items,
+  currentCategoryId: 1,
+  currentFoodItemId: 1,
 };
 
 const foodsState = createSlice({
