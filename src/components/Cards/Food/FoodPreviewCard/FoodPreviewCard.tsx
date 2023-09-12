@@ -1,15 +1,11 @@
 import React from "react";
 import { FoodItem } from "../../../../types/Food";
 
-type FoodPreviewCardProps = {
-  data: FoodItem;
-};
-
-const FoodPreviewCard = ({ data }: FoodPreviewCardProps) => {
+const FoodPreviewCard = ({ id, name }: FoodItem) => {
   console.log("FoodPreviewCard");
   return (
     <div className="rounded-md border p-3 active:border-red-400">
-      {data.id}.{data.name}
+      {id}.{name}
     </div>
   );
 };

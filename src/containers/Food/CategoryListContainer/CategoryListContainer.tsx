@@ -8,7 +8,7 @@ const CategoryListContainer = () => {
   return (
     <div className="flex gap-2">
       {categories.map((category) => (
-        <FoodCard.Category data={category} key={category.id} />
+        <FoodCard.Category {...category} key={category.id} />
       ))}
     </div>
   );
