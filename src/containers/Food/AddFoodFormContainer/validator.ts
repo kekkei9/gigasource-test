@@ -17,5 +17,9 @@ export const AddFoodFormSchema = {
       type: "number",
       minimum: 0,
     },
+    type: {
+      type: "string",
+      enum: ["edit", "add"],
+    },
   },
 };

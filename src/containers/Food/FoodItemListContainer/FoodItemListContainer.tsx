@@ -1,52 +1,45 @@
 import FoodCard from "../../../components/Cards/Food";
-import { useAppSelector } from "../../../redux/store";
-import { FoodCategory, FoodItem } from "../../../types/Food";
-import React from "react";
-
-const CategoryFoodItemList = React.memo(
-  ({
-    category: { id, name },
-    items,
-  }: {
-    category: FoodCategory;
-    items: FoodItem[];
-  }) => {
-    console.log("CategoryFoodItemList");
-    return (
-      <div className="flex gap-4 items-center" key={id}>
-        <div className="text-white">{name}</div>
-        <div className="overflow-x-auto flex gap-2">
-          {items
-            .filter((item) => item.categoryId === id)
-            .map((item) => (
-              <FoodCard.Preview {...item} key={item.id} />
-            ))}
-        </div>
-      </div>
-    );
-  },
-  (prevProps, nextProps) =>
-    JSON.stringify(prevProps.items) === JSON.stringify(nextProps.items)
-);
+import { selectFoodItemId } from "../../../redux/foods/foods.slice";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { useCallback } from "react";
 
 type FoodItemListContainerProps = {
   className?: string;
 };
 
 const FoodItemListContainer = ({ className }: FoodItemListContainerProps) => {
-  const { items, categories } = useAppSelector((state) => state.foods);
+  const { items, categories, currentCategoryId, currentFoodItemId } =
+    useAppSelector((state) => state.foods);
+
+  const dispatch = useAppDispatch();
+
+  const handleFoodItemClick = useCallback(
+    (id: number) => dispatch(selectFoodItemId(id)),
+    [dispatch]
+  );
+  console.log("FoodItemListContainer");
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
-      {categories.map((category) => {
-        return (
-          <CategoryFoodItemList
-            category={category}
-            items={items.filter((item) => item.categoryId === category.id)}
-            key={category.id}
-          />
-        );
-      })}
+      {categories.map((category) => (
+        <div
+          className={`flex flex-col gap-2 ${
+            category.id !== currentCategoryId && "hidden"
+          }`}
+          key={category.id}
+        >
+          {items
+            .filter((item) => item.categoryId === category.id)
+            .map((item) => (
+              <FoodCard.Preview
+                key={item.id}
+                {...item}
+                onClick={handleFoodItemClick}
+                isSelected={currentFoodItemId === item.id}
+              />
+            ))}
+        </div>
+      ))}
     </div>
   );
 };

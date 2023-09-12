@@ -16,9 +16,11 @@ const FoodCategoryCard = ({
   console.log("FoodCategoryCard");
   return (
     <div
-      className={`rounded-md border p-3 ${isSelected && "border-red-400"}`}
+      className={`rounded-md border p-3 cursor-pointer ${
+        isSelected && "border-[0.25rem] border-red-400"
+      }`}
       style={{
-        backgroundColor: uniqolor(id).color,
+        backgroundColor: uniqolor.random().color,
       }}
       onClick={() => onClick(id)}
     >
