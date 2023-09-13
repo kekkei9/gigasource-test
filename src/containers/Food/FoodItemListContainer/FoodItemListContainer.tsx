@@ -2,21 +2,6 @@ import FoodCard from "../../../components/Cards/Food";
 import { selectFoodItemId } from "../../../redux/foods/foods.slice";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { useCallback } from "react";
-import { FoodItem } from "../../../types/Food";
-
-type FoodItemWrapperProps = FoodItem & {
-  onClick: (id: number) => void;
-};
-
-const FoodItemWrapper = (props: FoodItemWrapperProps) => {
-  const currentFoodItemId = useAppSelector(
-    (state) => state.foods.currentFoodItemId
-  );
-
-  return (
-    <FoodCard.Preview {...props} isSelected={currentFoodItemId === props.id} />
-  );
-};
 
 type FoodItemListContainerProps = {
   className?: string;
@@ -49,7 +34,7 @@ const FoodItemListContainer = ({ className }: FoodItemListContainerProps) => {
           {items
             .filter((item) => item.categoryId === category.id)
             .map((item) => (
-              <FoodItemWrapper
+              <FoodCard.Preview
                 {...item}
                 onClick={handleFoodItemClick}
                 key={item.id}

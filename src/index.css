@@ -22,3 +22,17 @@ code {
       @apply border rounded-md p-2;
     }
 }
+
+@layer components {
+
+  .food-preview-card {
+    @apply relative;
+   .checkmark {@apply rounded-md border p-3;}
+   [type="radio"] {
+    @apply absolute opacity-0 h-full w-full
+   }
+    [type="radio"]:checked + .checkmark {
+        @apply border-[0.25rem] border-red-400;
+      }
+  }
+}

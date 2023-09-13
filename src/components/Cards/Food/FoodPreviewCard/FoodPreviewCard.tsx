@@ -4,28 +4,27 @@ import uniqolor from "uniqolor";
 
 type FoodPreviewCardProps = FoodItem & {
   onClick: (id: number) => void;
-  isSelected: boolean;
 };
 
 const FoodPreviewCard = ({
   id,
   name,
-  categoryId,
-  isSelected,
   onClick,
+  categoryId,
 }: FoodPreviewCardProps) => {
   console.log("FoodPreviewCard");
+
   return (
     <div
-      className={`rounded-md border p-3 active:border-red-400 ${
-        isSelected && "border-[0.25rem] border-red-400"
-      }`}
+      className="food-preview-card"
       style={{
         backgroundColor: uniqolor.random().color,
       }}
-      onClick={() => onClick(id)}
     >
-      {id}.{name}
+      <input type="radio" name="fooditem" onClick={() => onClick(id)} />
+      <div className="checkmark">
+        {id}.{name}
+      </div>
     </div>
   );
 };
