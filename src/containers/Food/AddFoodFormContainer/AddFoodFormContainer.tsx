@@ -2,10 +2,15 @@ import { useForm } from "react-hook-form";
 import { ajvResolver } from "@hookform/resolvers/ajv";
 import { AddFoodFormSchema } from "./validator";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { addFoodItem } from "../../../redux/foods/foods.slice";
+import { addFoodItem, editFoodItem } from "../../../redux/foods/foods.slice";
+import { useCallback, useEffect, useMemo } from "react";
 
 const AddFoodFormContainer = () => {
   const categories = useAppSelector((state) => state.foods.categories);
+  const items = useAppSelector((state) => state.foods.items);
+  const currentFoodItemId = useAppSelector(
+    (state) => state.foods.currentFoodItemId
+  );
   console.log("AddFoodFormContainer");
 
   const dispatch = useAppDispatch();
@@ -24,6 +29,23 @@ const AddFoodFormContainer = () => {
 >>>>>>> Stashed changes
     resolver: ajvResolver(AddFoodFormSchema as any),
   });
+
+  useEffect(() => {
+    reset(items.find((item) => item.id === currentFoodItemId));
+  }, [currentFoodItemId, reset]);
+
+  const categoryOptions = useMemo(
+    () => (
+      <>
+        {categories.map(({ id, name }) => (
+          <option value={id} key={id}>
+            {name}
+          </option>
+        ))}
+      </>
+    ),
+    [categories]
+  );
 
   const onSubmit = (values: any) => {
 <<<<<<< Updated upstream
@@ -56,11 +78,7 @@ const AddFoodFormContainer = () => {
           valueAsNumber: true,
         })}
       >
-        {categories.map(({ id, name }) => (
-          <option value={id} key={id}>
-            {name}
-          </option>
-        ))}
+        {categoryOptions}
       </select>
 
       <div>ID</div>
@@ -74,9 +92,8 @@ const AddFoodFormContainer = () => {
 
       <input {...register("name")} />
       <div>Price</div>
-
       <input
-        type="number"
+        type="price"
         {...register("price", {
           valueAsNumber: true,
         })}
@@ -96,7 +113,7 @@ const AddFoodFormContainer = () => {
       <div className="text-red-400">{(errors as any)?.type?.message}</div>
 >>>>>>> Stashed changes
       <button type="submit" className="bg-cyan-300 px-2 py-1 rounded-md mt-2">
-        Submit
+        Save/Add
       </button>
     </form>
   );

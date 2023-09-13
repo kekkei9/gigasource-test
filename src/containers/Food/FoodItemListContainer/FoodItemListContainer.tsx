@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import FoodCard from "../../../components/Cards/Food";
 <<<<<<< Updated upstream
 import { useAppSelector } from "../../../redux/store";
