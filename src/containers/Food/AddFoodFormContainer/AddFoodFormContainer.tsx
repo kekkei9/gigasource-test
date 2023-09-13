@@ -3,7 +3,7 @@ import { ajvResolver } from "@hookform/resolvers/ajv";
 import { AddFoodFormSchema } from "./validator";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { addFoodItem, editFoodItem } from "../../../redux/foods/foods.slice";
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const AddFoodFormContainer = () => {
   const categories = useAppSelector((state) => state.foods.categories);
@@ -15,18 +15,14 @@ const AddFoodFormContainer = () => {
 
   const dispatch = useAppDispatch();
 
-<<<<<<< Updated upstream
-  const { register, handleSubmit } = useForm({
-=======
   const {
     register,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors },
     trigger,
+    getValues,
   } = useForm({
->>>>>>> Stashed changes
     resolver: ajvResolver(AddFoodFormSchema as any),
   });
 
@@ -48,9 +44,6 @@ const AddFoodFormContainer = () => {
   );
 
   const onSubmit = (values: any) => {
-<<<<<<< Updated upstream
-    dispatch(addFoodItem(values));
-=======
     const { type, ...rest } = values;
     if (type === "add") {
       dispatch(addFoodItem(rest));
@@ -63,7 +56,6 @@ const AddFoodFormContainer = () => {
     if (type === "edit") {
       dispatch(editFoodItem(rest));
     }
->>>>>>> Stashed changes
   };
 
   return (
@@ -93,13 +85,12 @@ const AddFoodFormContainer = () => {
       <input {...register("name")} />
       <div>Price</div>
       <input
-        type="price"
+        type="number"
         {...register("price", {
           valueAsNumber: true,
         })}
       />
-<<<<<<< Updated upstream
-=======
+
       <div className="flex gap-3">
         <label htmlFor="add">
           <input {...register("type")} type="radio" value="add" id="add" />
@@ -111,7 +102,6 @@ const AddFoodFormContainer = () => {
         </label>
       </div>
       <div className="text-red-400">{(errors as any)?.type?.message}</div>
->>>>>>> Stashed changes
       <button type="submit" className="bg-cyan-300 px-2 py-1 rounded-md mt-2">
         Save/Add
       </button>
