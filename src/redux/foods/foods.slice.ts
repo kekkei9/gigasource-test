@@ -7,6 +7,10 @@ const initialState: FoodsState = {
   items: foodData.items,
   currentCategoryId: foodData.categories[0].id,
   currentFoodItemId: foodData.items[0].id,
+  selectedList: foodData.items.reduce((prev: Record<number, boolean>, curr) => {
+    prev[curr.id] = curr.id === 1;
+    return prev;
+  }, {}),
 };
 
 const foodsState = createSlice({
@@ -38,6 +42,8 @@ const foodsState = createSlice({
       state.currentCategoryId = action.payload;
     },
     selectFoodItemId: (state, action) => {
+      state.selectedList[state.currentFoodItemId] = false;
+      state.selectedList[action.payload] = true;
       state.currentFoodItemId = action.payload;
     },
   },

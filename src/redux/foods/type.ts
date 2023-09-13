@@ -5,4 +5,5 @@ export type FoodsState = {
   items: FoodItem[];
   currentCategoryId: number;
   currentFoodItemId: number;
+  selectedList: Record<number, boolean>;
 };
