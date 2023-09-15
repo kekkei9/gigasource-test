@@ -1,18 +1,17 @@
 import React from "react";
-import { FoodCategory } from "../../../../types/Food";
 import uniqolor from "uniqolor";
+import { FoodCategory } from "../../../../rxdb/collections/foodCategories/type";
+import { useAppSelector } from "../../../../redux/store";
 
 type FoodCategoryCardProps = FoodCategory & {
-  onClick: (id: number) => void;
-  isSelected: boolean;
+  onClick: (id: string) => void;
 };
 
-const FoodCategoryCard = ({
-  name,
-  id,
-  isSelected,
-  onClick,
-}: FoodCategoryCardProps) => {
+const FoodCategoryCard = ({ name, id, onClick }: FoodCategoryCardProps) => {
+  const isSelected = useAppSelector(
+    (state) => state.foods.selectedFoodCategories[id]
+  );
+
   console.log("FoodCategoryCard");
   return (
     <div

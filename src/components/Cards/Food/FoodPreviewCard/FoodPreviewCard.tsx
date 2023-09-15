@@ -1,19 +1,21 @@
 import React from "react";
-import { FoodItem } from "../../../../types/Food";
 import uniqolor from "uniqolor";
 import { useAppSelector } from "../../../../redux/store";
+import { FoodItem } from "../../../../rxdb/collections/foodItems/type";
 
 type FoodPreviewCardProps = FoodItem & {
-  onClick: (id: number) => void;
+  onClick: (id: string) => void;
 };
 
 const FoodPreviewCard = ({ id, name, onClick }: FoodPreviewCardProps) => {
-  const isSelected = useAppSelector((state) => state.foods.selectedList[id]);
+  const isSelected = useAppSelector(
+    (state) => state.foods.selectedFoodItems[id]
+  );
   console.log("FoodPreviewCard");
 
   return (
     <div
-      className={`rounded-md border p-3 ${
+      className={`rounded-md border p-3 cursor-pointer ${
         isSelected && "border-[0.25rem] border-red-400"
       }`}
       style={{

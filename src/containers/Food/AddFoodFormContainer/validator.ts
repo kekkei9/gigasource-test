@@ -3,15 +3,16 @@ export const AddFoodFormSchema = {
   required: ["id", "name", "categoryId", "price"],
   properties: {
     id: {
-      type: "number",
-      minimum: 1,
+      type: "string",
+      minLength: 1,
+      maxLength: 100,
     },
     name: {
       type: "string",
       minLength: 1,
     },
     categoryId: {
-      type: "number",
+      type: "string",
     },
     price: {
       type: "number",

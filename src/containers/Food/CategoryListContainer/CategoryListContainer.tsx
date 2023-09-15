@@ -1,19 +1,24 @@
 import { useCallback } from "react";
 import FoodCard from "../../../components/Cards/Food";
+import { useAppDispatch } from "../../../redux/store";
+import { useRxData } from "rxdb-hooks";
+import { FoodCategory } from "../../../rxdb/collections/foodCategories/type";
 import { selectCategoryId } from "../../../redux/foods/foods.slice";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
 
 const CategoryListContainer = () => {
-  const categories = useAppSelector((state) => state.foods.categories);
-  const currentCategoryId = useAppSelector(
-    (state) => state.foods.currentCategoryId
+  const { result: categories } = useRxData<FoodCategory>(
+    "food_categories",
+    (collection) => collection.find()
   );
 
   const dispatch = useAppDispatch();
+
   console.log("CategoryListContainer");
 
   const handleCategoryCardClick = useCallback(
-    (id: number) => dispatch(selectCategoryId(id)),
+    (id: string) => {
+      dispatch(selectCategoryId(id));
+    },
     [dispatch]
   );
 
@@ -21,10 +26,9 @@ const CategoryListContainer = () => {
     <div className="flex gap-2">
       {categories.map((category) => (
         <FoodCard.Category
-          {...category}
+          {...category._data}
           key={category.id}
           onClick={handleCategoryCardClick}
-          isSelected={currentCategoryId === category.id}
         />
       ))}
     </div>

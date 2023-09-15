@@ -1,19 +1,24 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { ajvResolver } from "@hookform/resolvers/ajv";
 import { AddFoodFormSchema } from "./validator";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { addFoodItem, editFoodItem } from "../../../redux/foods/foods.slice";
-import { useEffect, useMemo } from "react";
+import { useAppSelector } from "../../../redux/store";
+import { FormEvent, useEffect } from "react";
+import { useRxCollection, useRxData } from "rxdb-hooks";
+import { FoodCategory } from "../../../rxdb/collections/foodCategories/type";
+import { FoodItem } from "../../../rxdb/collections/foodItems/type";
 
 const AddFoodFormContainer = () => {
-  const categories = useAppSelector((state) => state.foods.categories);
-  const items = useAppSelector((state) => state.foods.items);
+  const { result: categories } = useRxData<FoodCategory>(
+    "food_categories",
+    (collection) => collection.find()
+  );
+
+  const foodItemCollection = useRxCollection<FoodItem>("food_items");
+
   const currentFoodItemId = useAppSelector(
     (state) => state.foods.currentFoodItemId
   );
   console.log("AddFoodFormContainer");
-
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -27,34 +32,37 @@ const AddFoodFormContainer = () => {
   });
 
   useEffect(() => {
-    reset(items.find((item) => item.id === currentFoodItemId));
-  }, [currentFoodItemId, reset]);
+    const setFormValues = async () => {
+      const currentFoodItem = (
+        await foodItemCollection
+          ?.findOne()
+          .where("id")
+          .equals(currentFoodItemId)
+          .exec()
+      )?._data;
+      if (!currentFoodItem) return;
+      reset(currentFoodItem);
+    };
+    setFormValues();
+  }, [currentFoodItemId, reset, foodItemCollection]);
 
-  const categoryOptions = useMemo(
-    () => (
-      <>
-        {categories.map(({ id, name }) => (
-          <option value={id} key={id}>
-            {name}
-          </option>
-        ))}
-      </>
-    ),
-    [categories]
-  );
-
-  const onSubmit = (values: any) => {
-    const { type, ...rest } = values;
+  const onSubmit = (values: FieldValues) => {
+    const { type, name, categoryId, price } = values;
     if (type === "add") {
-      dispatch(addFoodItem(rest));
+      foodItemCollection?.insert({
+        name,
+        categoryId,
+        price,
+        id: Date.now().toFixed(),
+      });
     }
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: FormEvent<HTMLFormElement>) => {
     if (!trigger()) return;
     const { type, ...rest } = getValues();
     if (type === "edit") {
-      dispatch(editFoodItem(rest));
+      foodItemCollection?.incrementalUpsert({ ...rest, id: currentFoodItemId });
     }
   };
 
@@ -65,21 +73,16 @@ const AddFoodFormContainer = () => {
       className="flex flex-col gap-1"
     >
       <div>Category</div>
-      <select
-        {...register("categoryId", {
-          valueAsNumber: true,
-        })}
-      >
-        {categoryOptions}
+      <select {...register("categoryId")}>
+        {categories.map(({ id, name }) => (
+          <option value={id} key={id}>
+            {name}
+          </option>
+        ))}
       </select>
 
       <div>ID</div>
-      <input
-        type="number"
-        {...register("id", {
-          valueAsNumber: true,
-        })}
-      />
+      <input type="number" {...register("id")} />
       <div>Name</div>
 
       <input {...register("name")} />
